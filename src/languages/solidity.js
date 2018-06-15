@@ -161,10 +161,10 @@ function (hljs) {
 		relevance: 10,
     keywords: KEYWORDS,
     variants: [ 
-      { begin: 'contract' },
-      { begin: 'interface' },
-      { begin: 'library' },
-      { begin: /\s(struct)/, relevance: 0},
+      { beginKeywords: 'contract' },
+      { beginKeywords: 'interface' },
+      { beginKeywords: 'library' },
+      { beginKeywords: 'struct', relevance: 0},
     ],
     contains: [ TitlesContract ] 
 	}
