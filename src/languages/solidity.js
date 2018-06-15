@@ -141,8 +141,8 @@ function (hljs) {
 	}
 
 	var CONSTRUCTOR = {
-		className: 'class',
-		begin: /\sconstructor/,
+		className: 'function',
+		beginKeywords: 'constructor',
 		end: /\{/,
 		excludeEnd: true,
     relevance: 0,
