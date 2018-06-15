@@ -42,11 +42,11 @@ function (hljs) {
 		  'anonymous as assembly break constant continue do delete else external for hex if ' +
 		  'indexed internal import is mapping memory new payable public pragma ' +
 		  'private pure return returns storage super this throw using view while' +
-		  'var function event modifier struct enum contract library interface constructor emit ' +
+		  'var function event modifier struct enum contract library interface emit ' +
 		  'abstract after case catch default final in inline let match ' +
 		  'of relocatable static switch try type typeof'
 		  ,
-		literal: 'true false null',
+		literal: 'true false null constructor',
 		built_in: 
 		  'block msg sender tx now suicide selfdestruct addmod mulmod sha3 keccak256 log ' +
 		  'sha256 ecrecover ripemd160 assert revert require transfer value ' +
@@ -71,7 +71,7 @@ function (hljs) {
 		],
 	}
 
-  var Parameters = {
+  var parameters = {
             className: 'params',
             begin: /\(/, end: /\)/,
             excludeBegin: true,
@@ -80,7 +80,7 @@ function (hljs) {
             contains: COMMONS.contains
           }
 
-  var TitlesContract = {
+  var titlesContract = {
             className: 'title',
             begin: /(?!is\b)\b\w/, // any word that is not 'is'
             end: /[ |\(]/,
@@ -89,26 +89,25 @@ function (hljs) {
             keywords: KEYWORDS
           }
 
-  var TitlesConstructor = {
+  var titlesConstructor = {
             className: 'title',
-           // begin: /\s,\s*\w/, 
             begin: /[A-Z]/, 
             end: /\(/,
             endsWithParent: true,
             excludeEnd: true,
           }
 
-  var FunctionContainer = [
+  var functionContainer = [
           hljs.inherit(hljs.TITLE_MODE, {begin: IDENT_RE}),
-          Parameters
+          parameters
         ]
   
-  var EventContainer = [ 
+  var eventContainer = [ 
           {
             className: 'literal', // matches more closely atom.
             begin: IDENT_RE
           },
-          Parameters
+          parameters
       ]
 
 	var FUNC = {
@@ -117,7 +116,7 @@ function (hljs) {
 		end: /\{/,
 		excludeEnd: true,
     relevance: 0,
-    contains: FunctionContainer,
+    contains: functionContainer,
     illegal: /\[|%/
 	}
 
@@ -127,7 +126,7 @@ function (hljs) {
 		end: /\;/,
 		excludeEnd: true,
     relevance: 10,
-        contains: EventContainer,
+        contains: eventContainer,
         illegal: /\[|%/
 	}
 
@@ -137,19 +136,20 @@ function (hljs) {
 		end: /\;/,
 		excludeEnd: true,
     relevance: 10,
-        contains: EventContainer,
+        contains: eventContainer,
         illegal: /\[|%/
 	}
 
 	var CONSTRUCTOR = {
 		className: 'class',
-		beginKeywords: 'constructor',
+		begin: /\sconstructor/,
 		end: /\{/,
 		excludeEnd: true,
     relevance: 0,
+    keywords: KEYWORDS,
         contains: [
-          Parameters,
-          TitlesConstructor
+          parameters,
+          titlesConstructor
         ],
         illegal: /\[|%/
 	}
@@ -166,7 +166,7 @@ function (hljs) {
       { beginKeywords: 'library' },
       { beginKeywords: 'struct', relevance: 0},
     ],
-    contains: [ TitlesContract ] 
+    contains: [ titlesContract ] 
 	}
 
 
