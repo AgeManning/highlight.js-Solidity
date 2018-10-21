@@ -1,12 +1,12 @@
 /*
 Language: Solidity
-Author: Age Manning 
+Author: Age Manning
 Modified from the original work by: Kaustav Haldar
 */
 
 function (hljs) {
 
-  // Helper variables and functions 
+  // Helper variables and functions
   var IDENT_RE = '[A-Za-z$_][0-9A-Za-z$_]*';
 
 	var NUMBER = {
@@ -20,7 +20,7 @@ function (hljs) {
 
 	var getStr = function() {
 		return (
-    'uint' + Array(256/8).fill().map(function(_, i) {return (i+1)*8}).join(' uint') + ' ' + 
+    'uint' + Array(256/8).fill().map(function(_, i) {return (i+1)*8}).join(' uint') + ' ' +
 		  'uint' + Array(256/8).fill().map(function(_, i) {return (i+1)*8}).join('[] uint') + ' ' +
 		  'int' + Array(256/8).fill().map(function(_, i) {return (i+1)*8}).join(' int') + ' ' +
 		  'int' + Array(256/8).fill().map(function(_, i) {return (i+1)*8}).join('[] int') + ' ' +
@@ -38,7 +38,7 @@ function (hljs) {
 	}
 
 	var KEYWORDS = {
-		keyword: 
+		keyword:
 		  'anonymous as assembly break constant continue do delete else external for hex if ' +
 		  'indexed internal import is mapping memory new payable public pragma ' +
 		  'private pure return returns storage super this throw using view while' +
@@ -47,10 +47,10 @@ function (hljs) {
 		  'of relocatable static switch try type typeof'
 		  ,
 		literal: 'true false null constructor',
-		built_in: 
+		built_in:
 		  'block msg sender tx now suicide selfdestruct addmod mulmod sha3 keccak256 log ' +
 		  'sha256 ecrecover ripemd160 assert revert require transfer value ' +
-		  'bytes string address uint int bool byte ' + 
+		  'bytes string address uint int bool byte ' +
 		  'bytes[] string[] address[] uint[] int[] bool[] byte[] ' +
 		  'wei szabo finney ether seconds minutes hours days weeks years ' +
       'returndatacopy call sload sstore mload mstore delegatecall ' +
@@ -62,7 +62,7 @@ function (hljs) {
 		   hljs.C_LINE_COMMENT_MODE,
        hljs.COMMENT(
        '/\\*', // begin
-       '\\*/'), // end 
+       '\\*/'), // end
 	     hljs.C_BLOCK_COMMENT_MODE,
 	     hljs.APOS_STRING_MODE,
 	     hljs.QUOTE_STRING_MODE,
@@ -91,7 +91,7 @@ function (hljs) {
 
   var titlesConstructor = {
             className: 'title',
-            begin: /[A-Z]/, 
+            begin: /[A-Z]/,
             end: /\(/,
             endsWithParent: true,
             excludeEnd: true,
@@ -101,8 +101,8 @@ function (hljs) {
           hljs.inherit(hljs.TITLE_MODE, {begin: IDENT_RE}),
           parameters
         ]
-  
-  var eventContainer = [ 
+
+  var eventContainer = [
           {
             className: 'literal', // matches more closely atom.
             begin: IDENT_RE
@@ -113,7 +113,7 @@ function (hljs) {
 	var FUNC = {
 		className: 'function',
 		beginKeywords: 'function',
-		end: /\{/,
+		end: /[\{\;]/,
 		excludeEnd: true,
     relevance: 0,
     contains: functionContainer,
@@ -160,13 +160,13 @@ function (hljs) {
 		excludeEnd: true,
 		relevance: 10,
     keywords: KEYWORDS,
-    variants: [ 
+    variants: [
       { beginKeywords: 'contract' },
       { beginKeywords: 'interface' },
       { beginKeywords: 'library' },
       { beginKeywords: 'struct', relevance: 0},
     ],
-    contains: [ titlesContract ] 
+    contains: [ titlesContract ]
 	}
 
 
