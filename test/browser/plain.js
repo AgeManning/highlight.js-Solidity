@@ -1,28 +1,14 @@
 'use strict';
 
-let bluebird = require('bluebird');
-let jsdomEnv = bluebird.promisify(require('jsdom').env);
-let utility  = require('../utility');
-let glob     = bluebird.promisify(require('glob'));
+const {newTestCase, defaultCase, buildFakeDOM } = require('./test_case')
 
 describe('plain browser', function() {
-  before(function() {
-    // Will match both `highlight.pack.js` and `highlight.min.js`
-    const filepath = utility.buildPath('..', 'build', 'highlight.*.js');
 
-    return glob(filepath)
-      .then(hljsPath => jsdomEnv(this.html, hljsPath))
-      .then(window => {
-        this.block = window.document.querySelector('pre code');
-        this.hljs  = window.hljs;
-      });
+  it('should return relevance key', async function() {
+    await buildFakeDOM.bind(this, defaultCase)();
+    var out = this.hljs.highlight("", { language: "javascript" });
+    out.relevance.should.equal(0);
   });
 
-  it('should highlight block', function() {
-    this.hljs.highlightBlock(this.block);
-
-    const actual = this.block.innerHTML;
-
-    actual.should.equal(this.expect);
-  });
+  it('should highlight block', defaultCase.runner);
 });
